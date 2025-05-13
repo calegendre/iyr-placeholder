@@ -416,22 +416,30 @@ $(document).ready(function() {
     title = title || 'Unknown Track';
     artist = artist || 'itsyourradio';
     
-    // Fade out current
-    elements.trackTitle.fadeOut(300, function() {
-      $(this).text(title).fadeIn(300, function() {
-        checkTextOverflow();
+    // Only update if the metadata has actually changed
+    if (title !== state.currentMetadata.title || artist !== state.currentMetadata.artist) {
+      console.log('Metadata changed, updating display');
+      
+      // Fade out current
+      elements.trackTitle.fadeOut(300, function() {
+        $(this).text(title).fadeIn(300, function() {
+          checkTextOverflow();
+        });
       });
-    });
-    
-    elements.trackArtist.fadeOut(300, function() {
-      $(this).text(artist).fadeIn(300, function() {
-        checkTextOverflow();
+      
+      elements.trackArtist.fadeOut(300, function() {
+        $(this).text(artist).fadeIn(300, function() {
+          checkTextOverflow();
+        });
       });
-    });
-    
-    // Update state
-    state.currentMetadata.title = title;
-    state.currentMetadata.artist = artist;
+      
+      // Update state
+      state.currentMetadata.title = title;
+      state.currentMetadata.artist = artist;
+    } else {
+      // Metadata hasn't changed, no need to update UI
+      console.log('Metadata unchanged, skipping update');
+    }
   }
 
   // Check if text needs scrolling effect
