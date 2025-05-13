@@ -269,16 +269,17 @@ body, html {
   color: white;
   width: 45px;
   height: 45px;
+  margin: 0 5px;
+  padding: 0;
+  border-radius: 50%;
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  transition: all 0.3s ease;
-  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .jp-controls button:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.1);
   transform: scale(1.05);
 }
 
@@ -290,6 +291,18 @@ body, html {
   width: 24px;
   height: 24px;
   fill: white;
+}
+
+/* Disabled button styles */
+.jp-controls button.disabled {
+  opacity: 0.3;
+  cursor: default;
+  pointer-events: none;
+}
+
+.jp-controls button.disabled:hover {
+  background-color: transparent;
+  transform: none;
 }
 
 .album-art {
