@@ -148,14 +148,14 @@ body, html {
   left: 0;
   width: 100%;
   height: 6px; /* Thicker border for better glow effect */
-  background: linear-gradient(90deg, #c3deeb, #8a6389, #2e4e7e);
-  background-size: 200% 200%;
+  background: linear-gradient(90deg, #c3deeb, #8a6389, #2e4e7e, #8a6389, #c3deeb);
+  background-size: 300% 100%;
   box-shadow: 0 0 20px 5px rgba(138, 99, 137, 0.8); /* Strong glow */
   transition: background 1.5s ease, box-shadow 1.5s ease;
 }
 
 #player-container.active::before {
-  animation: borderAnimation 5s ease infinite;
+  animation: borderAnimation 3s linear infinite;
 }
 
 .jp-controls {
