@@ -32,7 +32,8 @@ $(document).ready(function() {
     targetColors: [...config.defaultColors],
     colorTransitionInProgress: false,
     albumArtLoading: false,
-    messageTimeout: null
+    messageTimeout: null,
+    failCount: 0  // Count of attempts to play different stream formats
   };
 
   // DOM elements
