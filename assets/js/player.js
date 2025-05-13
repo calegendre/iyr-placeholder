@@ -302,7 +302,6 @@ $(document).ready(function() {
       }
     });
   }
-  }
 
   // Try to get album art from Azuracast
   function tryAzuracastArtwork(serverName, listenUrl) {
