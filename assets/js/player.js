@@ -53,6 +53,9 @@ $(document).ready(function() {
     loadingIndicator: $('.loading-indicator'),
     messageOverlay: $('.message-overlay')
   };
+  
+  // Initialize UI state
+  elements.stopBtn.addClass('disabled'); // Initially disable stop button
 
   // Initialize Color Thief for extracting colors from album art
   const colorThief = new ColorThief();
