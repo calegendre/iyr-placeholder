@@ -262,14 +262,27 @@ $(document).ready(function() {
   }
 
   // Update play/pause UI
-  function updatePlayPauseUI(isPlaying) {
-    if (isPlaying) {
+  function updatePlayPauseUI() {
+    if (state.isPlaying && !state.isPaused) {
       elements.playIcon.hide();
       elements.pauseIcon.show();
       elements.loadingIndicator.removeClass('visible');
     } else {
       elements.playIcon.show();
       elements.pauseIcon.hide();
+    }
+    
+    // Update stop button state
+    updateButtonStates();
+  }
+  
+  // Update button states based on playback state
+  function updateButtonStates() {
+    // Enable/disable stop button based on playback state
+    if (state.isPlaying || state.isPaused) {
+      elements.stopBtn.removeClass('disabled');
+    } else {
+      elements.stopBtn.addClass('disabled');
     }
   }
 
