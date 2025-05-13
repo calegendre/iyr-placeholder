@@ -393,19 +393,44 @@ body, html {
 
 .jp-volume-bar {
   width: 80px;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 3px;
+  height: 8px;
+  background: rgba(15, 20, 27, 0.5);
+  border-radius: 4px;
   position: relative;
   overflow: hidden;
   cursor: pointer;
+  box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.5);
+}
+
+.jp-volume-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #c3deeb40, #8a638940, #2e4e7e40, #8a638940, #c3deeb40);
+  background-size: 300% 100%;
+  opacity: 0.5;
+  transition: opacity 0.5s ease;
+}
+
+#player-container.active .jp-volume-bar::before {
+  animation: borderAnimation 4s linear infinite;
+  opacity: 1;
 }
 
 .jp-volume-bar-value {
   height: 100%;
-  background: linear-gradient(to right, #c3deeb, #8a6389);
-  border-radius: 3px;
+  background: linear-gradient(90deg, #c3deeb, #8a6389, #2e4e7e, #8a6389, #c3deeb);
+  background-size: 300% 100%;
+  border-radius: 4px;
   transition: width 0.2s ease;
+}
+
+#player-container.active .jp-volume-bar-value {
+  animation: borderAnimation 3s linear infinite;
 }
 
 /* Loading indicator */
