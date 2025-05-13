@@ -222,13 +222,23 @@ $(document).ready(function() {
       showMessage('Trying backup stream...', 'info');
       
       // Swap the streams
-      const temp = config.streams.mp3;
-      config.streams.mp3 = config.streams.m3u;
-      config.streams.m3u = temp;
+      // If main stream failed, try the alternative streams
+      if (failCount === 1) {
+        console.log('Trying aacp stream');
+      } else if (failCount === 2) {
+        console.log('Trying m3u playlist');
+        // Now try the m3u playlist
+        config.streams.mp3 = config.streams.m3u;
+      } else if (failCount === 3) {
+        console.log('Trying pls playlist');
+        // Finally try the pls playlist
+        config.streams.mp3 = config.streams.pls;
+      }
       
       // Try to play again
       elements.player.jPlayer('setMedia', {
-        mp3: config.streams.mp3
+        mp3: config.streams.mp3,
+        aacp: config.streams.aacp
       });
       
       elements.player.jPlayer('play');
