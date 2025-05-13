@@ -620,9 +620,10 @@ $(document).ready(function() {
     const styleTag = document.createElement('style');
     styleTag.textContent = `
       #player-container::before {
-        background: linear-gradient(90deg, ${colors[0]}, ${colors[1]}, ${colors[2]});
-        background-size: 200% 200%;
+        background: linear-gradient(90deg, ${colors[0]}, ${colors[1]}, ${colors[2]}, ${colors[1]}, ${colors[0]});
+        background-size: 300% 100%;
         box-shadow: 0 0 20px 5px ${colors[1].replace('rgb', 'rgba').replace(')', ', 0.8)')};
+        transition: background 2s ease, box-shadow 2s ease;
       }
     `;
     
