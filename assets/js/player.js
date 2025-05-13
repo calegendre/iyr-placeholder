@@ -145,9 +145,10 @@ $(document).ready(function() {
     elements.loadingIndicator.addClass('visible');
     
     try {
-      // Set the stream URL
+      // Set the stream URL with multiple formats for fallback
       elements.player.jPlayer('setMedia', {
-        mp3: config.streams.mp3
+        mp3: config.streams.mp3,
+        aacp: config.streams.aacp
       });
       
       // Start playback
