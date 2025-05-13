@@ -328,36 +328,37 @@ $(document).ready(function() {
     }
   }
 
-  // Try alternative method of getting metadata
+  // Try fallback metadata fetching method
   function tryFallbackMetadata() {
-    const timestamp = new Date().getTime();
-    const fallbackUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent('https://acast.us/public/itsyourradio/playlist.m3u?nocache=' + timestamp)}`;
+    // Fallback to the original Icecast JSON metadata endpoint
+    const timestamp = new Date().getTime(); // Prevent caching
+    const metadataUrl = `https://acast.us:8000/status-json.xsl?nocache=${timestamp}`;
     
     $.ajax({
-      url: fallbackUrl,
-      dataType: 'text',
+      url: metadataUrl,
+      dataType: 'json',
       timeout: 5000,
       success: function(data) {
-        const lines = data.split('\n');
-        for (let i = 0; i < lines.length; i++) {
-          const line = lines[i].trim();
-          if (line.startsWith('#EXTINF:')) {
-            // Extract metadata from format: #EXTINF:-1,Artist - Title
-            const metaStart = line.indexOf(',');
-            if (metaStart > 0) {
-              const metaText = line.substring(metaStart + 1);
-              processMetadata(metaText);
-              break;
+        try {
+          if (data && data.icestats && data.icestats.source) {
+            // Handle either single source or array of sources
+            let source = data.icestats.source;
+            if (Array.isArray(source)) {
+              // Find the matching source (usually looking for radio.mp3 in URL)
+              source = source.find(src => src.listenurl && src.listenurl.includes('radio.mp3'));
+            }
+            
+            if (source) {
+              // Process title and artist
+              processMetadata(source.title || 'Unknown Track');
             }
           }
+        } catch (error) {
+          console.error('Error processing fallback metadata:', error);
         }
       },
       error: function(xhr, status, error) {
         console.error('Error fetching fallback metadata:', error);
-        // If all else fails, at least show playing status
-        if (state.isPlaying && !state.currentMetadata.title) {
-          updateMetadataDisplay('itsyourradio', 'Live Stream');
-        }
       }
     });
   }
