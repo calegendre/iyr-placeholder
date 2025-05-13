@@ -107,6 +107,9 @@ $(document).ready(function() {
       const error = event.jPlayer.error;
       console.log('jPlayer error:', error.message);
       
+      // Increment fail count
+      state.failCount++;
+      
       // Show error message
       showMessage(`Error: ${error.message}`, 'error');
       
