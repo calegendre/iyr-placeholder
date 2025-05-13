@@ -9,6 +9,7 @@ $(document).ready(function() {
   const config = {
     streams: {
       mp3: 'https://acast.us:8000/radio.mp3',
+      aacp: 'https://acast.us:8000/radio.aacp',
       m3u: 'https://acast.us/public/itsyourradio/playlist.m3u',
       pls: 'https://acast.us/public/itsyourradio/playlist.pls'
     },
