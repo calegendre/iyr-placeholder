@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>itsyourradio [IYR]</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="assets/iyr17logo.png" type="image/png">
+  
+  <!-- jQuery -->
+  <script src="assets/js/jquery.min.js"></script>
+  
+  <!-- jPlayer -->
+  <script src="assets/js/jplayer.min.js"></script>
+  
+  <!-- Color Thief -->
+  <script src="assets/js/color-thief.min.js"></script>
+</head>
+<body>
+  <!-- Animated background -->
+  <div class="background"></div>
+  
+  <!-- Main content container -->
+  <div class="container">
+    <div class="logo-container">
+      <img src="assets/iyr17logo.png" alt="itsyourradio Logo" class="logo">
+    </div>
+    <h1 class="main-message">itsyourradio.com will be back soon</h1>
+    <p class="sub-message">we are working on upgrading our servers and websites</p>
+    <p class="thank-you">listen to the live stream below, thank you for your patience</p>
+  </div>
+  
+  <!-- Hidden jPlayer instance -->
+  <div id="jquery_jplayer_1" class="jp-jplayer"></div>
+  
+  <!-- Player interface -->
+  <div id="jp_container_1" class="jp-audio" role="application" aria-label="media player">
+    <div id="player-container">
+      <!-- Play/stop controls -->
+      <div class="jp-controls">
+        <button class="jp-play" role="button" aria-label="play pause">
+          <svg class="play-icon" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+          <svg class="pause-icon" viewBox="0 0 24 24" style="display:none;">
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+          </svg>
+        </button>
+        <button class="jp-stop" role="button" aria-label="stop">
+          <svg viewBox="0 0 24 24">
+            <path d="M6 6h12v12H6z"/>
+          </svg>
+        </button>
+      </div>
+      
+      <!-- Album art with loading indicator -->
+      <div class="album-art">
+        <svg class="placeholder" viewBox="0 0 24 24">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-5.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"/>
+        </svg>
+        <img src="" alt="Album Art">
+        <div class="loading-indicator">
+          <div class="loading-spinner"></div>
+        </div>
+      </div>
+      
+      <!-- Track information -->
+      <div class="track-info">
+        <div class="track-title">Press play to start stream</div>
+        <div class="track-artist"></div>
+      </div>
+      
+      <!-- Volume control -->
+      <div class="volume-control">
+        <div class="volume-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+          </svg>
+        </div>
+        <div class="jp-volume-bar">
+          <div class="jp-volume-bar-value" style="width: 70%;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Message overlay for notifications -->
+  <div class="message-overlay"></div>
+  
+  <!-- Custom player script -->
+  <script src="assets/js/player.js"></script>
+</body>
+</html>
