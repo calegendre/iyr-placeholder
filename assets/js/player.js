@@ -564,17 +564,14 @@ $(document).ready(function() {
     });
   }
 
-  // Update album art display
-  function updateAlbumArt(artworkUrl) {
-    if (!artworkUrl || artworkUrl === state.currentMetadata.artworkUrl) {
-      state.albumArtLoading = false;
-      return;
-    }
+  // Update album art with the URL from Azuracast
+  function updateAlbumArt(artUrl) {
+    if (!artUrl || state.albumArtLoading) return;
     
-    // Create an image object to load the artwork
+    // Set loading state
+    state.albumArtLoading = true;
+    
     const img = new Image();
-    
-    img.crossOrigin = 'Anonymous';
     
     img.onload = function() {
       // Fade out current
@@ -582,13 +579,14 @@ $(document).ready(function() {
       
       setTimeout(function() {
         // Update source and fade in
-        elements.albumImg.attr('src', artworkUrl)
+        elements.albumImg.attr('src', artUrl)
           .addClass('visible');
         
         elements.albumArt.addClass('has-art');
         
         // Extract colors and update gradient
         try {
+          const colorThief = new ColorThief();
           const palette = colorThief.getPalette(img, 3);
           const colors = palette.map(color => `rgb(${color[0]}, ${color[1]}, ${color[2]})`);
           updateGradientColors(colors);
@@ -597,7 +595,7 @@ $(document).ready(function() {
         }
         
         // Update state
-        state.currentMetadata.artworkUrl = artworkUrl;
+        state.currentMetadata.artworkUrl = artUrl;
         state.albumArtLoading = false;
       }, 300);
     };
@@ -607,9 +605,15 @@ $(document).ready(function() {
       elements.albumImg.removeClass('visible');
       elements.albumArt.removeClass('has-art');
       state.albumArtLoading = false;
+      
+      // Try LastFM instead if we have artist and title
+      if (state.currentMetadata.artist && state.currentMetadata.title) {
+        fetchAlbumArtwork(state.currentMetadata.artist, state.currentMetadata.title);
+      }
     };
     
-    img.src = artworkUrl;
+    img.crossOrigin = 'Anonymous';
+    img.src = artUrl;
   }
 
   // Update gradient colors for the player border
