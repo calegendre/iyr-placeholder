@@ -599,6 +599,14 @@ $(document).ready(function() {
   function updateAlbumArt(artUrl) {
     if (!artUrl || state.albumArtLoading) return;
     
+    // Only update if the artwork has actually changed
+    if (artUrl === state.currentMetadata.artworkUrl) {
+      console.log('Artwork unchanged, skipping update');
+      return;
+    }
+    
+    console.log('Artwork changed, updating display');
+    
     // Set loading state
     state.albumArtLoading = true;
     
