@@ -247,49 +247,51 @@ $(document).ready(function() {
     }
   }
 
-  // Fetch metadata from Icecast server
+  // Fetch metadata from Azuracast API
   function fetchMetadata() {
     // Clear any existing timer
     clearTimeout(state.metadataTimer);
     
-    // Get the metadata
-    const timestamp = new Date().getTime(); // Prevent caching
-    const metadataUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent('https://acast.us:8000/status-json.xsl?nocache=' + timestamp)}`;
+    // Get the metadata from Azuracast API using station ID 1
+    const nowPlayingUrl = 'https://acast.us/api/nowplaying/1';
     
     $.ajax({
-      url: metadataUrl,
+      url: nowPlayingUrl,
       dataType: 'json',
       timeout: 5000, // 5 second timeout
+      headers: {
+        'X-API-Key': '3e0fbebad23a39d7:3bf8c0250ddd8d1995a085942eb8aefd'
+      },
       success: function(data) {
         try {
-          if (data && data.icestats && data.icestats.source) {
-            // Handle either single source or array of sources
-            let source = data.icestats.source;
-            if (Array.isArray(source)) {
-              // Find the matching source (usually looking for radio.mp3 in URL)
-              source = source.find(src => src.listenurl && src.listenurl.includes('radio.mp3'));
-            }
+          if (data && data.now_playing) {
+            const nowPlaying = data.now_playing;
+            const song = nowPlaying.song || {};
             
-            if (source) {
-              // Process title and artist
-              processMetadata(source.title || 'Unknown Track');
-              
-              // Check for album art in the source
-              if (source.server_name && source.server_name.includes('Azuracast')) {
-                // Azuracast servers often have album art URLs in the metadata
-                tryAzuracastArtwork(source.server_name, source.listenurl);
-              }
+            // Get title and artist
+            const title = song.title || 'Unknown Track';
+            const artist = song.artist || '';
+            
+            // Process title and artist
+            updateMetadataDisplay(artist, title);
+            
+            // Get album art
+            if (song.art) {
+              updateAlbumArt(song.art);
+            } else {
+              // Fallback to LastFM if no art is provided
+              fetchAlbumArtwork(artist, title);
             }
           }
         } catch (error) {
-          console.error('Error processing metadata:', error);
-          // Try fallback option if needed
+          console.error('Error processing Azuracast metadata:', error);
+          // Fallback to old method
           tryFallbackMetadata();
         }
       },
       error: function(xhr, status, error) {
-        console.error('Error fetching metadata:', error);
-        // Try fallback option
+        console.error('Error fetching Azuracast metadata:', error);
+        // Fallback to old method
         tryFallbackMetadata();
       },
       complete: function() {
@@ -299,6 +301,7 @@ $(document).ready(function() {
         }
       }
     });
+  }
   }
 
   // Try to get album art from Azuracast
