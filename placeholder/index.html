@@ -27,6 +27,7 @@
       background: radial-gradient(circle at center, #c3deeb 0%, #8a6389 50%, #2e4e7e 100%);
       z-index: -1;
       animation: gradientAnimation 15s ease infinite;
+      background-size: 200% 200%;
     }
     
     @keyframes gradientAnimation {
@@ -83,7 +84,7 @@
 <body>
   <div class="background"></div>
   <div class="container">
-    <img src="images/iyr17logo.png" alt="ItsYourRadio Logo" class="logo">
+    <img src="iyr17logo.png" alt="ItsYourRadio Logo" class="logo">
     <h1 class="main-message">itsyourradio will be back soon</h1>
     <p class="sub-message">we are working on upgrading our servers and websites</p>
     <p class="thank-you">thank you for your patience</p>
@@ -96,7 +97,7 @@
       let angle = 0;
       
       function updateGradient() {
-        angle = (angle + 0.2) % 360;
+        angle = (angle + 0.1) % 360;
         const colors = [
           'rgba(195, 222, 235, 0.7)', // Light blue (muted)
           'rgba(138, 99, 137, 0.7)',  // Purple (muted)
