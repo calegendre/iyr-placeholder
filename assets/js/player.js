@@ -164,47 +164,55 @@ $(document).ready(function() {
     }
   }
 
-  // Pause stream
-  function pauseStream() {
+  // Pause playback
+  function pausePlayback() {
+    if (!state.isPlaying) return;
+    
     elements.player.jPlayer('pause');
     state.isPaused = true;
-    updatePlayPauseUI(false);
+    updatePlayPauseUI();
     
-    // Don't clear metadata timer - we'll keep updating even when paused
-    // Fade the display to indicate paused state
-    elements.trackTitle.css('opacity', 0.7);
-    elements.trackArtist.css('opacity', 0.7);
-    elements.albumArt.css('opacity', 0.7);
+    // We don't remove the active class so the border animation continues
   }
-
-  // Resume stream after pause
-  function resumeStream() {
+  
+  // Resume playback
+  function resumePlayback() {
+    if (!state.isPaused) return;
+    
     elements.player.jPlayer('play');
     state.isPaused = false;
     state.isPlaying = true;
-    updatePlayPauseUI(true);
-    
-    // Restore full opacity
-    elements.trackTitle.css('opacity', 1);
-    elements.trackArtist.css('opacity', 1);
-    elements.albumArt.css('opacity', 1);
-    
-    // Make sure animation is active
-    elements.container.addClass('active');
+    updatePlayPauseUI();
   }
-
+  
+  // Toggle play/pause
+  function togglePlayPause() {
+    if (!state.isPlaying && !state.isPaused) {
+      startPlayback();
+    } else if (state.isPaused) {
+      resumePlayback();
+    } else {
+      pausePlayback();
+    }
+  }
+  
   // Stop playback
   function stopPlayback() {
     elements.player.jPlayer('stop');
     resetMetadataDisplay();
     clearTimeout(state.metadataTimer);
     state.metadataTimer = null;
+    state.isPlaying = false;
+    state.isPaused = false;
     
     // Reset colors to default
     updateGradientColors(config.defaultColors);
     
     // Remove animation class
     elements.container.removeClass('active');
+    
+    // Disable stop button
+    updateButtonStates();
   }
 
   // Reset metadata display
