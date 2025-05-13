@@ -130,10 +130,12 @@ $(document).ready(function() {
 
   // Play/pause toggle
   function togglePlayPause() {
-    if (!state.isPlaying || state.isPaused) {
-      playStream();
+    if (!state.isPlaying && !state.isPaused) {
+      startPlayback();
+    } else if (state.isPaused) {
+      resumePlayback();
     } else {
-      pauseStream();
+      pausePlayback();
     }
   }
 
