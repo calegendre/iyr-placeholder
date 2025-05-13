@@ -139,14 +139,8 @@ $(document).ready(function() {
     }
   }
 
-  // Play stream
-  function playStream() {
-    // If paused, just resume
-    if (state.isPaused) {
-      resumeStream();
-      return;
-    }
-
+  // Start playback
+  function startPlayback() {
     // Show loading indicator
     elements.loadingIndicator.addClass('visible');
     
