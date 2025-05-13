@@ -62,10 +62,10 @@ $(document).ready(function() {
       // Player is ready, but we don't autoplay
       console.log('jPlayer ready');
     },
-    supplied: 'mp3',
-    solution: 'html',  // Force HTML5 solution
+    supplied: 'mp3, aacp', // Support multiple formats
+    solution: 'html, flash',  // Try HTML5 first, then Flash if needed
     wmode: 'window',
-    preload: 'none',
+    preload: 'metadata',
     volume: 0.7,
     cssSelectorAncestor: '#jp_container_1',
     useStateClassSkin: true,
