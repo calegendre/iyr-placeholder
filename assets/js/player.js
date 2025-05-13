@@ -220,23 +220,29 @@ $(document).ready(function() {
     };
   }
 
-  // Try fallback stream if main stream fails
+  // Try fallback stream URLs when main stream fails
   function tryFallbackStream() {
-    if (config.streams.m3u && config.streams.mp3 !== config.streams.m3u) {
+    // Check if we have any fallback options
+    if (config.streams.m3u || config.streams.pls || config.streams.aacp) {
       showMessage('Trying backup stream...', 'info');
       
-      // Swap the streams
       // If main stream failed, try the alternative streams
-      if (failCount === 1) {
+      if (state.failCount === 1) {
         console.log('Trying aacp stream');
-      } else if (failCount === 2) {
+      } else if (state.failCount === 2) {
         console.log('Trying m3u playlist');
         // Now try the m3u playlist
         config.streams.mp3 = config.streams.m3u;
-      } else if (failCount === 3) {
+      } else if (state.failCount === 3) {
         console.log('Trying pls playlist');
         // Finally try the pls playlist
         config.streams.mp3 = config.streams.pls;
+      } else {
+        // If we've tried all formats, reset the counter
+        console.log('All stream formats tried, resetting');
+        state.failCount = 0;
+        elements.loadingIndicator.removeClass('visible');
+        return;
       }
       
       // Try to play again
