@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ItsYourRadio - Coming Back Soon</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body, html {
+      height: 100%;
+      width: 100%;
+      font-family: 'Arial', sans-serif;
+      overflow: hidden;
+    }
+    
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, #c3deeb 0%, #8a6389 50%, #2e4e7e 100%);
+      z-index: -1;
+      animation: gradientAnimation 15s ease infinite;
+      background-size: 200% 200%;
+    }
+    
+    @keyframes gradientAnimation {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+    
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      padding: 20px;
+    }
+    
+    .logo {
+      max-width: 80%;
+      height: auto;
+      margin-bottom: 30px;
+    }
+    
+    .main-message {
+      font-size: 28px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 20px;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    }
+    
+    .sub-message {
+      font-size: 18px;
+      color: #ffffff;
+      margin-bottom: 10px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+    
+    .thank-you {
+      font-size: 16px;
+      color: #ffffff;
+      font-style: italic;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <div class="background"></div>
+  <div class="container">
+    <img src="iyr17logo.png" alt="ItsYourRadio Logo" class="logo">
+    <h1 class="main-message">itsyourradio will be back soon</h1>
+    <p class="sub-message">we are working on upgrading our servers and websites</p>
+    <p class="thank-you">thank you for your patience</p>
+  </div>
+  
+  <script>
+    // Enhanced gradient animation
+    document.addEventListener('DOMContentLoaded', function() {
+      const background = document.querySelector('.background');
+      let angle = 0;
+      
+      function updateGradient() {
+        angle = (angle + 0.1) % 360;
+        const colors = [
+          'rgba(195, 222, 235, 0.7)', // Light blue (muted)
+          'rgba(138, 99, 137, 0.7)',  // Purple (muted)
+          'rgba(46, 78, 126, 0.7)'    // Dark blue (muted)
+        ];
+        
+        background.style.background = `radial-gradient(circle at ${50 + Math.sin(angle * Math.PI / 180) * 10}% ${50 + Math.cos(angle * Math.PI / 180) * 10}%, 
+          ${colors[0]} 0%, 
+          ${colors[1]} 50%, 
+          ${colors[2]} 100%)`;
+        
+        requestAnimationFrame(updateGradient);
+      }
+      
+      updateGradient();
+    });
+  </script>
+</body>
+</html>
