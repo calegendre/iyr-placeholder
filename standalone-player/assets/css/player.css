@@ -1,0 +1,379 @@
+/**
+ * IYR Player Bar - A stunning responsive audio player with dynamic color themes
+ * Version: 1.0
+ * Author: itsyourradio
+ */
+
+/* Player container */
+#player-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background-color: rgba(24, 32, 42, 0.95);
+  box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  z-index: 100;
+  transition: background-color 1.5s ease;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+#player-container.active {
+  background: linear-gradient(to right, rgba(18, 24, 32, 0.95), rgba(28, 35, 45, 0.95), rgba(18, 24, 32, 0.95));
+  background-size: 200% 100%;
+  animation: playerBackgroundAnimation 15s ease infinite;
+}
+
+@keyframes playerBackgroundAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes borderAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+#player-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px; /* Thicker border for better glow effect */
+  background: linear-gradient(90deg, #c3deeb, #8a6389, #2e4e7e, #8a6389, #c3deeb);
+  background-size: 300% 100%;
+  box-shadow: 0 0 20px 5px rgba(138, 99, 137, 0.8); /* Strong glow */
+  transition: background 1.5s ease, box-shadow 1.5s ease;
+  opacity: 0.8;
+}
+
+#player-container.active::before {
+  animation: borderAnimation 3s linear infinite;
+  opacity: 1;
+}
+
+/* Controls area */
+.controls-area {
+  display: flex;
+  align-items: center;
+}
+
+/* Player controls */
+.jp-controls {
+  display: flex;
+  align-items: center;
+}
+
+.jp-controls button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: white;
+  width: 45px;
+  height: 45px;
+  margin: 0 5px;
+  padding: 0;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.jp-controls button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: scale(1.05);
+}
+
+.jp-controls button:active {
+  transform: scale(0.95);
+}
+
+.jp-controls button svg {
+  width: 24px;
+  height: 24px;
+  fill: white;
+}
+
+/* Disabled button styles */
+.jp-controls button.disabled {
+  opacity: 0.3;
+  cursor: default;
+  pointer-events: none;
+}
+
+.jp-controls button.disabled:hover {
+  background-color: transparent;
+  transform: none;
+}
+
+/* Album art */
+.album-art {
+  width: 80px;
+  height: 80px;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  margin-right: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.album-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.album-art img.visible {
+  opacity: 1;
+}
+
+.album-art svg {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  fill: rgba(255, 255, 255, 0.4);
+}
+
+.album-art.has-art svg {
+  display: none;
+}
+
+/* Track info */
+.track-info {
+  flex: 1;
+  overflow: hidden;
+  margin-right: 20px;
+}
+
+.track-title {
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: transform 10s linear;
+}
+
+.track-title.scrolling {
+  transform: translateX(-100%);
+}
+
+.track-artist {
+  color: #e0e0e0;
+  font-size: 14px;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: transform 10s linear;
+}
+
+.track-artist.scrolling {
+  transform: translateX(-100%);
+}
+
+/* Volume control */
+.volume-control {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.jp-mute, .jp-volume-max {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin: 0 10px;
+  padding: 0;
+}
+
+.jp-mute svg, .jp-volume-max svg {
+  fill: white;
+}
+
+.jp-volume-bar {
+  width: 80px;
+  height: 8px;
+  background: rgba(15, 20, 27, 0.5);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.5);
+}
+
+.jp-volume-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #c3deeb40, #8a638940, #2e4e7e40, #8a638940, #c3deeb40);
+  background-size: 300% 100%;
+  opacity: 0.5;
+  transition: opacity 0.5s ease;
+}
+
+#player-container.active .jp-volume-bar::before {
+  animation: borderAnimation 4s linear infinite;
+  opacity: 1;
+}
+
+.jp-volume-bar-value {
+  height: 100%;
+  background: linear-gradient(90deg, #c3deeb, #8a6389, #2e4e7e, #8a6389, #c3deeb);
+  background-size: 300% 100%;
+  border-radius: 4px;
+  transition: width 0.2s ease;
+}
+
+#player-container.active .jp-volume-bar-value {
+  animation: borderAnimation 3s linear infinite;
+}
+
+/* Loading indicator */
+.loading-indicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  margin-top: -20px;
+  margin-left: -20px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  visibility: hidden;
+}
+
+.loading-indicator.visible {
+  animation: spin 1s infinite linear;
+  opacity: 1;
+  visibility: visible;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Message overlay */
+.message-overlay {
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  border-radius: 4px;
+  z-index: 10;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.message-overlay.visible {
+  top: -40px;
+  opacity: 1;
+}
+
+.message-overlay.error {
+  background-color: rgba(255, 59, 48, 0.8);
+}
+
+.message-overlay.success {
+  background-color: rgba(52, 199, 89, 0.8);
+}
+
+.message-overlay.info {
+  background-color: rgba(0, 122, 255, 0.8);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  #player-container {
+    height: auto;
+    padding: 15px;
+    flex-wrap: wrap;
+  }
+  
+  .album-art {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .track-info {
+    width: calc(100% - 120px);
+  }
+  
+  .volume-control {
+    margin-top: 10px;
+    margin-left: 0;
+    width: 100%;
+    justify-content: flex-end;
+  }
+  
+  .track-title {
+    font-size: 14px;
+  }
+  
+  .track-artist {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .jp-controls button {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .jp-controls button svg {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .volume-control {
+    justify-content: flex-start;
+  }
+  
+  .jp-volume-bar {
+    width: 60px;
+  }
+}
