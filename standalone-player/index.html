@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IYR Player - Standalone Demo</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Player Styles -->
+  <link rel="stylesheet" href="assets/css/player.css">
+  
+  <!-- Demo page styles -->
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+    
+    .demo-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    
+    h1 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    p {
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    
+    .config-panel {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-bottom: 40px;
+    }
+    
+    .config-panel h2 {
+      font-size: 20px;
+      margin-top: 0;
+      margin-bottom: 15px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    
+    input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    
+    button {
+      background-color: #4a6394;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background-color 0.3s;
+    }
+    
+    button:hover {
+      background-color: #38507a;
+    }
+    
+    .spacer {
+      height: 120px; /* Space for the player */
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-container">
+    <h1>IYR Player Standalone Demo</h1>
+    
+    <p>
+      This is a demonstration of the IYR Player, a beautiful responsive audio player with dynamic color themes that can be easily integrated into any website.
+    </p>
+    
+    <div class="config-panel">
+      <h2>Configuration</h2>
+      
+      <label for="stream-url">Stream URL (MP3)</label>
+      <input type="text" id="stream-url" value="https://acast.us:8000/radio.mp3">
+      
+      <label for="stream-aacp">Stream URL (AACP)</label>
+      <input type="text" id="stream-aacp" value="https://acast.us:8000/radio.aacp">
+      
+      <label for="metadata-url">Metadata URL</label>
+      <input type="text" id="metadata-url" value="https://acast.us/api/nowplaying/1">
+      
+      <label for="api-key">API Key</label>
+      <input type="text" id="api-key" value="3e0fbebad23a39d7:3bf8c0250ddd8d1995a085942eb8aefd">
+      
+      <button id="update-config">Update Configuration</button>
+    </div>
+    
+    <p>
+      The player shows the current track information, album artwork, and features responsive controls.
+      The colors of the player border and volume slider automatically update based on the album artwork.
+    </p>
+    
+    <div class="spacer"></div>
+  </div>
+  
+  <!-- Player HTML -->
+  <div id="player-container">
+    <div class="album-art">
+      <svg viewBox="0 0 24 24">
+        <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+      </svg>
+      <img src="" alt="Album Art">
+    </div>
+    
+    <div class="track-info">
+      <p class="track-title"></p>
+      <p class="track-artist"></p>
+    </div>
+    
+    <div class="controls-area">
+      <div id="jp_container_1">
+        <div class="jp-controls">
+          <button class="jp-play" role="button" aria-label="play pause">
+            <svg class="play-icon" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+            <svg class="pause-icon" viewBox="0 0 24 24" style="display: none;">
+              <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+            </svg>
+          </button>
+          <button class="jp-stop" role="button" aria-label="stop">
+            <svg viewBox="0 0 24 24">
+              <path d="M6 6h12v12H6z"/>
+            </svg>
+          </button>
+          <div class="volume-control">
+            <button class="jp-mute" role="button" aria-label="mute">
+              <svg viewBox="0 0 24 24">
+                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+              </svg>
+            </button>
+            <div class="jp-volume-bar">
+              <div class="jp-volume-bar-value" style="width: 70%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="loading-indicator"></div>
+    <div class="message-overlay"></div>
+  </div>
+  
+  <div id="jquery_jplayer_1"></div>
+  
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="assets/js/jplayer.min.js"></script>
+  <script src="assets/js/color-thief.min.js"></script>
+  <script src="assets/js/player.js"></script>
+  
+  <script>
+    $(document).ready(function() {
+      // Initialize player with configuration
+      IYRPlayer.init({
+        selector: '#jquery_jplayer_1',
+        containerSelector: '#player-container',
+        streams: {
+          mp3: $('#stream-url').val(),
+          aacp: $('#stream-aacp').val()
+        },
+        metadataUrl: $('#metadata-url').val(),
+        metadataApiKey: $('#api-key').val(),
+        metadataInterval: 4000,
+        lastFmAPIKey: '17ca9f045bb8c0b1f5af8cbf747d4e25'
+      });
+      
+      // Update configuration button
+      $('#update-config').on('click', function() {
+        // Stop current playback
+        IYRPlayer.stop();
+        
+        // Update configuration
+        IYRPlayer.config.streams.mp3 = $('#stream-url').val();
+        IYRPlayer.config.streams.aacp = $('#stream-aacp').val();
+        IYRPlayer.config.metadataUrl = $('#metadata-url').val();
+        IYRPlayer.config.metadataApiKey = $('#api-key').val();
+        
+        // Show message
+        IYRPlayer.showMessage('Configuration updated', 'success');
+      });
+    });
+  </script>
+</body>
+</html>
